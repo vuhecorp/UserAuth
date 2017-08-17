@@ -21,7 +21,7 @@ public class AuthenticationManager {
 	
 	private final int MAX_TRIES = 4;
 	private final int LOCKOUT_DURATION = (60 *24); //lockout duration.
-	private final int MAX_TRIAL_PERIOD_MIN = 60; //minutes after which the filed attempts resets to 0;
+	private final int MAX_TRIAL_PERIOD_MIN = 60; //minutes after which the failed attempts resets to 0;
 	public  int totalTries;
 	UserManager um = new UserManager();
 	
