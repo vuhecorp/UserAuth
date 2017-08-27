@@ -4,11 +4,19 @@
 xmlns:ui="http://java.sun.com/jsf/facelets" 
 xmlns:f="http://java.sun.com/jsf/core"
 xmlns:h="http://java.sun.com/jsf/html"
-xmlns:p="http://primefaces.org/ui">
+xmlns:p="http://primefaces.org/ui"
+lang="en">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>Welcome</title>
 	<h:outputStylesheet name="css/styleSheet.css"  />
+	<script type="text/javascript">
+    function test(){
+        var i = $('.ui-row-toggler.ui-icon-circle-triangle-s').length;
+        if(i == 1){return;}
+            $('.ui-row-toggler.ui-icon-circle-triangle-s').trigger('click');
+    }
+</script>
 </h:head>
 <h:body>
 	<f:view>
@@ -34,7 +42,9 @@ xmlns:p="http://primefaces.org/ui">
 		                					 value="#{userManagementBean.allUsersList}"
 		                					 var="user"
 		                					 reflow="true"
-		                					 paginator="true">
+		                					 paginator="true"
+		                					 rowKey="#{user.id}" expandedRow="#{user.id == userManagementBean.selectedUser.id}">
+		                					 <p:ajax event="rowToggle" onstart="test();"/>  
 									<p:column style="width:16px">
 										<p:rowToggler />
 									</p:column>
@@ -84,8 +94,7 @@ xmlns:p="http://primefaces.org/ui">
 		                								<p:column>
 														<p:commandButton value="Save" action="#{userManagementBean.updateUser}"
 																		 style="width:100px"
-																		 update="@form"
-																		 >
+																		 update="userTable">
 															<f:setPropertyActionListener value="#{user}" 
 																							 target="#{userManagementBean.selectedUser}"/>
 														</p:commandButton>
