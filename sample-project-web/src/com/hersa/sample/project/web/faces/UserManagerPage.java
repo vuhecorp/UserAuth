@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import com.hersa.sample.project.bom.UserManager;
 import com.hersa.sample.project.dao.user.User;
+import com.hersa.sample.project.utils.StaticMethodUtils;
 
 @ManagedBean(name="userManagementBean")
 @SessionScoped
@@ -24,7 +25,11 @@ public class UserManagerPage implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7884563377621899855L;
+	/**
+	 * 
+	 */
+
 	private User sessionUser;
 	private User selectedUser;
 	private List<User> allUsersList;
@@ -32,7 +37,7 @@ public class UserManagerPage implements Serializable {
 	private Map<String, String> userRoleMap;
 	
 	private UserManager um = new UserManager();
-	FacesContext context = FacesContext.getCurrentInstance();
+	FacesContext context;
 	
 	@PostConstruct
 	public void init() {
@@ -46,6 +51,7 @@ public class UserManagerPage implements Serializable {
 		sessionUser = (User) session.getAttribute("User");
 		allUsersList = new ArrayList<User>();
 		userRoleMap = new HashMap<String, String>();
+		context =  FacesContext.getCurrentInstance();
 	}
 	public void generateMaps(){
 		userRoleMap.put("System Admin", "sysadmin");
@@ -60,19 +66,19 @@ public class UserManagerPage implements Serializable {
 		try {
 			um.resetUser(selectedUser);
 			loadUsers();
-			this.context.addMessage("Info", new FacesMessage(null, "User has been unlocked successfully.", "Success!"));
+			StaticMethodUtils.addFacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "User has been unlocked successfully.");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			this.context.addMessage("Info", new FacesMessage(FacesMessage.SEVERITY_ERROR, "User could not be unlocked.", "Error!"));
+			StaticMethodUtils.addFacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "User could not be unlocked.");
 		}
 	}
 	public void updateUser(){
 		try {
 			um.updateUser(selectedUser);
 			loadUsers();
-			this.context.addMessage("Info", new FacesMessage(null, "User has been unlocked successfully.", "Success!"));
+			StaticMethodUtils.addFacesMessage(FacesMessage.SEVERITY_INFO,"Success!", "User has been updated successfully.");
 		} catch (Exception e) {
-			this.context.addMessage("Info", new FacesMessage(FacesMessage.SEVERITY_ERROR, "There was an error while deleting this user.", "Error!"));
+			StaticMethodUtils.addFacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "There was an error while updating this user." );
 		}
 	}
 	public User getSessionUser() {
