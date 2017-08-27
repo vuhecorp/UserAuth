@@ -26,7 +26,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 	@Override
 	public void updateUser(User user) {
-		String whereClause = "WHERE email = ?;";
+		String whereClause = "WHERE id = ?;";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sqlUpdate + whereClause);
 			statement.setString(1, user.getFirstName());
@@ -44,7 +44,7 @@ public class UserDAOImpl implements UserDAO {
 			statement.setTimestamp(13, user.getFirstFailed());
 			/***SET WHERE PARAM**/
 			
-			statement.setString(14, user.getEmail());
+			statement.setInt(14, user.getId());
 			statement.execute();
 		} catch (SQLException e) {
 			System.err.println("<<<<<<---- " + e.getMessage());
